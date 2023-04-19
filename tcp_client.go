@@ -4,17 +4,26 @@ import (
 	"net"
 	"log"
 	"os"
+	"github.com/issaalmusawi/repo3-crypt/mycrypt"
 )
 
 func main() {
-	conn, err := net.Dial("tcp", "127.0.0.1:")
+	conn, err := net.Dial("tcp", "172.17.0.2:8080")
 	if err != nil {
 		log.Fatal(err)
 	}
-    
-	log.Println("os.Args[1] = ", os.Args[1])
+    	
+	//nytt
 
- 	_, err = conn.Write([]byte(os.Args[1]))
+	message :=[]rune(os.Args[1])
+	kryptertMelding, err := mycrypt.Krypter(message, 4)
+	if err != nil{
+		log.Fatal(err)
+	}
+
+	log.Println("Kryptert melding: ", string(kryptertMelding))
+
+ 	_, err = conn.Write([]byte(string(kryptertMelding)))
 	if err != nil {
 		log.Fatal(err)
 	}
