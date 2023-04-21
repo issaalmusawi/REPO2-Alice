@@ -15,7 +15,13 @@ func main() {
     	
 	//nytt
 
-	message :=[]rune(os.Args[1])
+	message :=[]rune{}
+	if len(os.Args)>1{
+		message = []rune(os.Args[1])
+	}else {
+		log.Fatal("ingen melding gitt")
+	}
+
 	encryptedMessage, err := mycrypt.Krypter(message, 4)
 	if err != nil{
 		log.Fatal(err)
@@ -37,13 +43,16 @@ func main() {
 	}
 
 	encryptedResponse :=[]rune(string(buf[:n]))
+	if len(encryptedResponse)>0{
 	decryptedResponse, err := mycrypt.Krypter(encryptedResponse, -4)
 	if err != nil{
 		log.Fatal(err)
 	}
 	
 	log.Println("reply from proxy: ", string(decryptedResponse))
-
+} else {
+	log.Println("no response from proxy")
+}
 
 
 /*	buf := make([]byte, 1024)
